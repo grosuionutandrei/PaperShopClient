@@ -7,7 +7,10 @@ import {ThemeAtom} from "../atoms/ThemeAtom.tsx";
 import {Footer} from "../components/Footer.tsx";
 import {ProductsMainPage} from "../components/ProductDisplay/ProductsMainPage.tsx";
 import ShopHomePage from "./ShopHomePage.tsx";
-import {ProductDetails} from "../components/ProductDisplay/ProductDetails.tsx";
+import {PlaceOrderPage} from "./PlaceOrderPage.tsx";
+import {ROUTES} from "../Routes/Routes.tsx";
+import {OrderHistoryPage} from "./OrderHistory.tsx";
+
 
 const App = () => {
     const location = useLocation();
@@ -27,6 +30,8 @@ const App = () => {
                 <Routes>
                     <Route path={""} element={<ShopHomePage/>}/>
                     <Route path={"/api/papers/:pageNumber"} element={<ProductsMainPage/>}></Route>
+                    <Route path={`${ROUTES.History}/:customerId/orders`} element={<OrderHistoryPage/>}></Route>
+                    <Route path={ROUTES.Cart} element={<PlaceOrderPage/>}></Route>
                 </Routes>
                 <Footer></Footer>
             </div>

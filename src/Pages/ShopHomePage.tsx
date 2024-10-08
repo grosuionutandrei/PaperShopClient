@@ -1,10 +1,10 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import {useAtom} from "jotai";
-import {FIRST_PAGE} from "../atoms/ItemsPerPage.tsx";
+import {PAGE_NUMBER} from "../atoms/ItemsPerPage.tsx";
 
 const HomePage = () => {
-    const [firstPage] = useAtom(FIRST_PAGE);
+    const [firstPage] = useAtom(PAGE_NUMBER);
     const navigate =  useNavigate();
 
     return (
@@ -37,7 +37,6 @@ const HomePage = () => {
                     </div>
                 </div>
 
-                {/* Customer Card */}
                 <div className="card w-80 bg-white shadow-xl">
                     <div className="card-body">
                         <h2 className="card-title text-xl text-gray-800">Customer</h2>

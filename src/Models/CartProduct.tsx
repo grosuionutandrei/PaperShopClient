@@ -1,6 +1,6 @@
 export interface CartProduct {
-    productId?: number;
-    /** @format int32 */
-    quantity?: number;
-    price?:number
+    productId: number;
+    productName:string;
+    quantity: number;
+    price:number
 }

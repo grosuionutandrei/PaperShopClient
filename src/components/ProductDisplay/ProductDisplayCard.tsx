@@ -23,7 +23,7 @@ export const ProductDisplayCard  = ({product}:ProductProp)=>{
             <div className="card-body">
                 <h2 className="card-title">{product.name}</h2>
                 <Price price={product.price!}/>
-                  <Stock items={product.stock}/>
+                  <Stock items={product.stock} message={"items remaining"}/>
                 <div className="card-actions justify-end">
                     <button className="btn btn-primary" onClick={() => openModal()}>See Details</button>
                 </div>

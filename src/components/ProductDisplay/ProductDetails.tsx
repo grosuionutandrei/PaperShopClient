@@ -58,9 +58,10 @@ export const ProductDetails = ({isOpen, openModal, product}: OpenModal) => {
             return;
         }
         const orderEntry: CartProduct = {
-            productId: product.id,
+            productId: product.id!,
             quantity: 1,
-            price: product.price
+            price: product.price!,
+            productName:product.name!
         }
         setOrderEntries([...orderEntries, orderEntry])
         setRefreshCart(true);
@@ -68,7 +69,7 @@ export const ProductDetails = ({isOpen, openModal, product}: OpenModal) => {
     }
 
     return (
-        <dialog id="my_modal_4" className={`modal ${openClass}`}>
+        <dialog  className={`modal ${openClass}`}>
             <div className="modal-box w-11/12 max-w-xl">
                 <div className="card bg-white shadow-lg ">
                     <figure><img className={"h-60 object-cover"}
@@ -77,7 +78,7 @@ export const ProductDetails = ({isOpen, openModal, product}: OpenModal) => {
                     <div className="card-body">
                         <h2 className="card-title">{product.name}</h2>
                         <Price price={product.price!}/>
-                        <Stock items={product.stock}/>
+                        <Stock items={product.stock} message={"items remaining"}/>
                     </div>
                 </div>
                 <h3 className="py-4">Properties</h3>
