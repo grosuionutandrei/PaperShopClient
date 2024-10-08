@@ -2,10 +2,18 @@ import React from "react";
 import {useNavigate} from "react-router-dom";
 import {useAtom} from "jotai";
 import {PAGE_NUMBER} from "../atoms/ItemsPerPage.tsx";
+import {ROUTES} from "../Routes/Routes.tsx";
+import {Users} from "../Models/Users.tsx";
+import {UserTypeAtom} from "../atoms/UserTypeAtom.tsx";
 
 const HomePage = () => {
     const [firstPage] = useAtom(PAGE_NUMBER);
+    const [,setUser] = useAtom(UserTypeAtom);
     const navigate =  useNavigate();
+    const saveUser=(user:Users)=>{
+        localStorage.setItem("loggedUser",user);
+        setUser(user);
+    }
 
     return (
         <div className="min-h-screen bg-lightBlue-100 flex flex-col items-center justify-center">
@@ -32,7 +40,7 @@ const HomePage = () => {
                             Manage products, inventory, and orders from the admin panel.
                         </p>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary">Go to Admin</button>
+                            <button className="btn btn-primary" onClick={()=>{navigate(`${ROUTES.Admin}/${firstPage}`);saveUser(Users.admin)}}>Go to Admin</button>
                         </div>
                     </div>
                 </div>
@@ -44,7 +52,7 @@ const HomePage = () => {
                             Browse our paper collection and place orders easily.
                         </p>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-secondary" onClick={()=>navigate(`/api/papers/${firstPage}`)}>Go to Customer</button>
+                            <button className="btn btn-secondary" onClick={()=>{navigate(`/api/papers/${firstPage}`);saveUser(Users.customer)}}>Go to Customer</button>
                         </div>
                     </div>
                 </div>
