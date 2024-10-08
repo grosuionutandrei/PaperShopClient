@@ -257,50 +257,20 @@ export class HttpClient<SecurityDataType = unknown> {
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   api = {
-      /**
-       * No description
-       *
-       * @tags Order
-       * @name CustomerOrdersDetail
-       * @request GET:/api/customer/{customerId}/orders
-       */
-      customerOrdersDetail: (customerId: number, params: RequestParams = {}) =>
-          this.request<OrderMain[], any>({
-              path: `/api/customer/${customerId}/orders`,
-              method: "GET",
-              format: "json",
-              ...params,
-          }),
-
-      /**
-       * No description
-       *
-       * @tags Paper
-       * @name PapersFilterList
-       * @request GET:/api/papers/filter
-       */
-      papersFilterList: (
-          query?: {
-              /** @format int32 */
-              'pagination.PageNumber'?: number;
-              /** @format int32 */
-              'pagination.PageItems'?: number;
-              /** @format double */
-              'priceRange.minimumRange'?: number;
-              /** @format double */
-              'priceRange.maximumRange'?: number;
-              paperPropertiesIds?: string;
-              searchFilter?: string;
-          },
-          params: RequestParams = {},
-      ) =>
-          this.request<PaperToDisplay[], any>({
-              path: `/api/papers/filter`,
-              method: "GET",
-              query: query,
-              format: "json",
-              ...params,
-          }),
+    /**
+     * No description
+     *
+     * @tags Order
+     * @name CustomerOrdersDetail
+     * @request GET:/api/customer/{customerId}/orders
+     */
+    customerOrdersDetail: (customerId: number, params: RequestParams = {}) =>
+      this.request<OrderMain[], any>({
+        path: `/api/customer/${customerId}/orders`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
 
     /**
      * No description
@@ -339,22 +309,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
 
-      /**
-       * No description
-       *
-       * @tags Order
-       * @name CustomerPlaceOrderCreate
-       * @request POST:/api/customer/{customerId}/placeOrder
-       */
-      customerPlaceOrderCreate: (customerId: number, data: OrderPlacedDto, params: RequestParams = {}) =>
-          this.request<OrderMain, any>({
-              path: `/api/customer/${customerId}/placeOrder`,
-              method: "POST",
-              body: data,
-              type: ContentType.Json,
-              format: "json",
-              ...params,
-          }),
+    /**
+     * No description
+     *
+     * @tags Order
+     * @name CustomerPlaceOrderCreate
+     * @request POST:/api/customer/{customerId}/placeOrder
+     */
+    customerPlaceOrderCreate: (customerId: number, data: OrderPlacedDto, params: RequestParams = {}) =>
+      this.request<OrderMain, any>({
+        path: `/api/customer/${customerId}/placeOrder`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
 
     /**
      * No description
@@ -373,10 +343,40 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<PaperToDisplay[], any>({
+      this.request<void, any>({
         path: `/api/papers/${pageNumber}`,
         method: "GET",
         query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Paper
+     * @name PapersFilterList
+     * @request GET:/api/papers/filter
+     */
+    papersFilterList: (
+      query?: {
+        /** @format int32 */
+        paginationPageNumber?: number;
+        /** @format int32 */
+        paginationPageItems?: number;
+        /** @format double */
+        priceRangeMinimumRange?: number;
+        /** @format double */
+        priceRangeMaximumRange?: number;
+        paperPropertiesIds?: string;
+        searchFilter?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<PaperToDisplay[], any>({
+        path: `/api/papers/filter`,
+        method: "GET",
+        query: query,
+        format: "json",
         ...params,
       }),
 
@@ -450,7 +450,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/papers/proprieties
      */
     papersProprietiesList: (params: RequestParams = {}) =>
-      this.request<PaperProperties[], any>({
+      this.request<void, any>({
         path: `/api/papers/proprieties`,
         method: "GET",
         ...params,
@@ -512,12 +512,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name HistoryDetail
      * @request GET:/customer/{customerId}/history
      */
-    historyDetail: (customerId: string, data: IdentificationDto, params: RequestParams = {}) =>
+    historyDetail: (customerId: number, params: RequestParams = {}) =>
       this.request<OrderMain[], any>({
         path: `/customer/${customerId}/history`,
         method: "GET",
-        body: data,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),

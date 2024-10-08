@@ -2,9 +2,10 @@ import React from "react";
 
 export interface Stock{
     items:number|undefined
+    message:string
 }
 
-export const Stock=({items}:Stock)=>{
+export const Stock=({items,message}:Stock)=>{
     const computeSkin = (items:number)=>{
         if(items<=0){
              return `stat-desc text-red-400`;
@@ -13,6 +14,6 @@ export const Stock=({items}:Stock)=>{
     }
 
     return (
-        <p className={`${computeSkin(items!)}`}>{`${items} items remaining`}</p>
+        <p className={`${computeSkin(items!)}`}>{`${items} ${message}`}</p>
     )
 }
