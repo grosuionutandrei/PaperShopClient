@@ -12,7 +12,6 @@ export const ProductDisplayCard  = ({product}:ProductProp)=>{
     const [isOpen, setOpen] = useState<boolean>(false);
 
     const openModal= () => {
-        console.log("isOpen");
         const toogle:boolean =isOpen?false:true
         setOpen(toogle);
     }

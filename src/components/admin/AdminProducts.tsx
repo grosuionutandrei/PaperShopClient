@@ -1,16 +1,16 @@
 import {useEffect, useState} from "react";
-import {useAtom} from "jotai";
+import {useAtom} from "jotai/index";
 import {ProductsAtom} from "../../atoms/ProductsAtom.tsx";
-import {http} from "../../http.ts";
-import {useParams} from "react-router-dom";
-import {toast} from "react-hot-toast";
 import {ITEMS_PER_PAGE} from "../../atoms/ItemsPerPage.tsx";
-import {ProductDisplayCard} from "./ProductDisplayCard.tsx";
-import {ProductDisplayCardPlaceholder} from "./ProductDisplayCardPlaceholder.tsx";
+import {useParams} from "react-router-dom";
+import {http} from "../../http.ts";
+import {toast} from "react-hot-toast";
+import {ProductDisplayCardPlaceholder} from "../ProductDisplay/ProductDisplayCardPlaceholder.tsx";
+import {ProductDisplayCard} from "../ProductDisplay/ProductDisplayCard.tsx";
+import {AdminProductDisplay} from "./AdminProductDisplay.tsx";
 
+export const AdminProducts  = ()=>{
 
-
-export const ProductsDisplay = ()=>{
     const [loading,setLoading] = useState<boolean>(false);
     const [productData,setProductData] = useAtom(ProductsAtom);
     const [pageItems] =  useAtom(ITEMS_PER_PAGE);
@@ -56,18 +56,18 @@ export const ProductsDisplay = ()=>{
     };
 
     return (
-   <>
-       <>
-           {loading ? (
-               drawPlaceHolder(pageItems)
-           ) : (
-               productData.map((product) => (
-                   <ProductDisplayCard key={product.id} product={product} />
-               ))
-           )}
+        <>
+            <>
+                {loading ? (
+                    drawPlaceHolder(pageItems)
+                ) : (
+                    productData.map((product,index) => (
+                        <AdminProductDisplay  color={(index%2===0?"bg-gray-100":"")} key={product.id} product={product} />
+                    ))
+                )}
 
-       </>
-   </>
+            </>
+        </>
     )
 
 }

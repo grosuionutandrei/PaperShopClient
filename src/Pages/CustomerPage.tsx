@@ -1,11 +1,9 @@
 import Navigation from "../components/Navigation.tsx";
 import {Route, Routes} from "react-router-dom";
-import ShopHomePage from "./ShopHomePage.tsx";
 import {ProductsMainPage} from "../components/ProductDisplay/ProductsMainPage.tsx";
 import {ROUTES} from "../Routes/Routes.tsx";
 import {OrderHistoryPage} from "./OrderHistory.tsx";
 import {PlaceOrderPage} from "./PlaceOrderPage.tsx";
-import {AdminHomePage} from "./AdminMainPage.tsx";
 import React from "react";
 
 export const CustomerPage = ()=>{
