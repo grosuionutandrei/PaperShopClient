@@ -1,3 +1,5 @@
+import {PaperProperties} from "../Api.ts";
+
 export const formatDateAndTime = (dateString: string | undefined): string => {
     if (!dateString) return 'N/A';
     const options: Intl.DateTimeFormatOptions = {
@@ -19,3 +21,8 @@ export const formatDate = (dateString: string | undefined): string => {
     };
     return new Date(dateString).toLocaleDateString(undefined, options);
 };
+
+export const transformPaperPropertiesToString = (properties: PaperProperties[]) => {
+    const orderProperties: string = properties.reduce((acc, cur) => acc + `${cur.propName} `, "");
+    return orderProperties === "" ? "N.A" : orderProperties;
+}

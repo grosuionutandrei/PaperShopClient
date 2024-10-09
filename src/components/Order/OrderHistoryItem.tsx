@@ -4,6 +4,7 @@ import {useState} from "react";
 import {http} from "../../http.ts";
 import {AxiosResponse} from "axios";
 import {toast} from "react-hot-toast";
+import  {transformPaperPropertiesToString} from "../../Utils/Utils.tsx"
 
 export interface OrderItem {
     orderItem: OrderMain
@@ -15,7 +16,6 @@ export const OrderHistoryItem = ({orderItem}: OrderItem) => {
     const open = "collapse-open";
     const close = "collapse-close";
     const switchClasses = () => {
-        console.log(windowControl);
         if (windowControl === "collapse-close") {
             setWindowControl(open);
             return;
@@ -30,10 +30,7 @@ export const OrderHistoryItem = ({orderItem}: OrderItem) => {
             toast.error(e)
         })
     }
-    const transformPaperPropertiesToString = (properties: PaperProperties[]) => {
-        const orderProperties: string = properties.reduce((acc, cur) => acc + `${cur.propName} `, "");
-        return orderProperties === "" ? "N.A" : orderProperties;
-    }
+
     const computeColor = (index: number) => {
         return index % 2 === 0 ? "bg-blue-100 text-black-200" : ""
     }

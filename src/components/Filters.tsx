@@ -7,14 +7,14 @@ import {useAtom} from "jotai";
 import {ACTIVE_FILTER} from "../atoms/ActiveFilterAtom.tsx";
 import {PaperPaginationQuery} from "../Models/PaperPaginationQuery.tsx";
 import {ITEMS_PER_PAGE, PAGE_NUMBER} from "../atoms/ItemsPerPage.tsx";
-import {PaperFilter} from "../Models/PaperFilter.tsx";
 import {ProductsAtom} from "../atoms/ProductsAtom.tsx";
+import {PAPER_PROPERTIES} from "../atoms/PaperProperties.tsx";
 
 
 
 
 export const Filters = () => {
-    const [properties, setProperties] = useState<PaperProperties[]>([]);
+    const [properties, setProperties] = useAtom(PAPER_PROPERTIES);
     const [activeFilter,setActiveFilter] =  useAtom(ACTIVE_FILTER);
     const[pageNumber] = useAtom(PAGE_NUMBER);
     const [itemsPerPage] =  useAtom(ITEMS_PER_PAGE);

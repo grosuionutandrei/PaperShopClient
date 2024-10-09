@@ -6,15 +6,28 @@ import {useParams} from "react-router-dom";
 import {http} from "../../http.ts";
 import {toast} from "react-hot-toast";
 import {ProductDisplayCardPlaceholder} from "../ProductDisplay/ProductDisplayCardPlaceholder.tsx";
-import {ProductDisplayCard} from "../ProductDisplay/ProductDisplayCard.tsx";
 import {AdminProductDisplay} from "./AdminProductDisplay.tsx";
+import {EditProduct} from "./EditProduct.tsx";
+import {PaperToDisplay} from "../../Api.ts";
+import {REFRESH_CART} from "../../atoms/AddToCart.tsx";
 
-export const AdminProducts  = ()=>{
+export const AdminProducts = () => {
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [productData, setProductData] = useAtom(ProductsAtom);
+    const [productToEdit, setProductToEdit] = useState<PaperToDisplay>({});
+    const [pageItems] = useAtom(ITEMS_PER_PAGE);
+    const {pageNumber} = useParams();
+    const [refreshPage, setRefreshPage] = useAtom(REFRESH_CART);
 
-    const [loading,setLoading] = useState<boolean>(false);
-    const [productData,setProductData] = useAtom(ProductsAtom);
-    const [pageItems] =  useAtom(ITEMS_PER_PAGE);
-    const {pageNumber} =  useParams();
+    useEffect(() => {
+        if (!refreshPage) {
+            return;
+        }
+        GetProducts();
+        setRefreshPage(false);
+    }, [pageNumber, refreshPage]);
+
 
     const GetProducts = () => {
         if (pageNumber) {
@@ -24,7 +37,7 @@ export const AdminProducts  = ()=>{
                 PageItems: 20,
             };
             setLoading(true);
-            http.api.papersDetail(pageNum,pageQuery)
+            http.api.papersDetail(pageNum, pageQuery)
                 .then((result) => {
                     setProductData(result.data);
                 })
@@ -40,16 +53,21 @@ export const AdminProducts  = ()=>{
         }
     };
 
+    const openModal = () => {
+        setModalOpen(!modalOpen);
+    }
 
-    useEffect(() => {
-        GetProducts();
-    }, [pageNumber]);
+    const getProductId = (productId: number) => {
+        const product = productData.find((p) => p.id === productId) || {};
+        setProductToEdit(product);
+    }
+
 
     const drawPlaceHolder = (itemsNumber: number) => {
-        const items:JSX.Element[] =[]
+        const items: JSX.Element[] = []
         let counter = 0;
         while (counter < itemsNumber) {
-            items.push(<ProductDisplayCardPlaceholder key={counter} />);
+            items.push(<ProductDisplayCardPlaceholder key={counter}/>);
             counter++;
         }
         return items;
@@ -57,17 +75,17 @@ export const AdminProducts  = ()=>{
 
     return (
         <>
-            <>
-                {loading ? (
-                    drawPlaceHolder(pageItems)
-                ) : (
-                    productData.map((product,index) => (
-                        <AdminProductDisplay  color={(index%2===0?"bg-gray-100":"")} key={product.id} product={product} />
-                    ))
-                )}
-
-            </>
+            {loading ? (
+                drawPlaceHolder(pageItems)
+            ) : (
+                productData.map((product, index) => (
+                    <AdminProductDisplay color={(index % 2 === 0 ? "bg-gray-100" : "")} key={product.id}
+                                         product={product} openModal={openModal} getPaperId={getProductId}/>
+                ))
+            )}
+            <EditProduct isOpen={modalOpen} openModal={openModal} product={productToEdit}></EditProduct>
         </>
+
     )
 
 }

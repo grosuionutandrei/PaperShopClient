@@ -12,7 +12,7 @@ export const Discontinued = ({discontinued}:Discontinued)=>{
     }, [discontinued]);
 
     return (
-        <li className={"flex flex-col w-1/4 items-center"}><strong>Availability:</strong>
+        <li className={"flex flex-col w-1/5 items-center"}><strong>Availability:</strong>
             <span>{discontinuedValue || 'N/A'}</span></li>
     )
 

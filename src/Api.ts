@@ -426,6 +426,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         format: "json",
         ...params,
       }),
+      /**
+       * No description
+       *
+       * @tags Paper
+       * @name PapersEditRemovepropertiesPartialUpdate
+       * @request PATCH:/api/papers/edit/{paperId}/removeproperties/{propertyId}
+       */
+      papersEditRemovepropertiesPartialUpdate: (paperId: number, propertyId: number, params: RequestParams = {}) =>
+          this.request<boolean, any>({
+              path: `/api/papers/edit/${paperId}/properties/remove/${propertyId}`,
+              method: "PATCH",
+              format: "json",
+              ...params,
+          }),
+      /**
+       * No description
+       *
+       * @tags Paper
+       * @name PapersEditPropertiesPartialUpdate
+       * @request PATCH:/api/papers/edit/{paperId}/properties/{propertyId}
+       */
+      papersEditPropertiesPartialUpdate: (paperId: number, propertyId: number, params: RequestParams = {}) =>
+          this.request<boolean, any>({
+              path: `/api/papers/edit/${paperId}/properties/${propertyId}`,
+              method: "PATCH",
+              format: "json",
+              ...params,
+          }),
 
     /**
      * No description
