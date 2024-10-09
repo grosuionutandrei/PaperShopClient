@@ -10,6 +10,8 @@ import {AxiosResponse} from "axios";
 import {PAPER_PROPERTIES} from "../../atoms/PaperProperties.tsx";
 import {useNavigation} from "react-router-dom";
 import {REFRESH_CART} from "../../atoms/AddToCart.tsx";
+import {ROUTES} from "../../Routes/Routes.tsx";
+import {DeletePaper} from "./DeleteProduct.tsx";
 
 
 
@@ -137,6 +139,15 @@ export const EditProduct = ({isOpen, openModal, product}: OpenModal) => {
     }
     const performEdit = () => {
         console.log(productToEdit);
+
+        if(!areFieldsValid()){
+            return;
+        }
+        if(!areChangesMade()){
+            openModal();
+            toast.success("Edit operation succeeded");
+            return;
+        }
         http.api.papersEditUpdate(product.id!.toString(), productToEdit)
             .then((response: AxiosResponse<PaperToDisplay>) => {
                 if (response.status === 200) {
@@ -157,12 +168,25 @@ export const EditProduct = ({isOpen, openModal, product}: OpenModal) => {
             });
     };
 
+    const areChangesMade = () => {
+        const areEqual = product.name === productToEdit.name &&
+            product.discontinued === productToEdit.discontinued &&
+            product.stock === productToEdit.stock &&
+            product.price === productToEdit.price;
+        return !areEqual;
+    };
 
+    const areFieldsValid = ()=>{
+        return productToEdit.name!=="";
+    }
 
 
     return (
         <dialog className={`modal ${openClass}`}>
             <div className="modal-box w-11/12 max-w-xl">
+                {/*<div className={"flex justify-end"}>*/}
+                {/*    <DeletePaper paperId={product.id!} openModal={openModal}></DeletePaper>*/}
+                {/*</div>*/}
                 <label className="form-control w-full max-w-xs">
                     <div className="label">
                         <span className="label-text">PaperName</span>
@@ -259,6 +283,7 @@ export const EditProduct = ({isOpen, openModal, product}: OpenModal) => {
                     )}
                 </div>
                 <div className="modal-action">
+
                     <form method="dialog">
                         <button className="btn" onClick={() => closeWindow()}>Exit</button>
                         <button className="btn" disabled={disabled()} onClick={() => performEdit()}>
