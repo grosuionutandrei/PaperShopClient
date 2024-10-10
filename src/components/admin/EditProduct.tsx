@@ -8,14 +8,10 @@ import {PaperProperties} from "../../Api.ts";
 import {http} from "../../http.ts";
 import {AxiosResponse} from "axios";
 import {PAPER_PROPERTIES} from "../../atoms/PaperProperties.tsx";
-import {useNavigation} from "react-router-dom";
 import {REFRESH_CART} from "../../atoms/AddToCart.tsx";
-import {ROUTES} from "../../Routes/Routes.tsx";
-import {DeletePaper} from "./DeleteProduct.tsx";
 
 
-
-enum EditCommand {
+export enum EditCommand {
     EditDiscontinued, EditName, EditStock, EditPrice
 }
 
@@ -26,29 +22,34 @@ export const EditProduct = ({isOpen, openModal, product}: OpenModal) => {
     const [productToEdit, setProductToEdit] = useState<PaperToDisplay>({...product})
     const [availability, setAvailability] = useState<string>(product.discontinued ? Availability.DISCONTINUED : Availability.AVAILABLE);
     const [productProperties, setProperties] = useState<PaperProperties[]>([]);
-    const [refreshPage,setRefreshPage] =  useAtom(REFRESH_CART);
+    const [refreshPage, setRefreshPage] = useAtom(REFRESH_CART);
 
     useEffect(() => {
         if (isOpen) {
             setOpenClass("modal-open");
             setProductToEdit({...product})
             getPaperProperties(product.id!);
+            // const difference = getAllProps.filter(item => !productProperties.includes(item));
+            // setPropertiesToAdd(difference);
         } else {
             setOpenClass("");
         }
-
     }, [isOpen]);
 
 
     const getPaperProperties = (productId: number) => {
-        http.api.papersDetailsDetail(productId).then((result: AxiosResponse<PaperProperties[]>) => {
-            setProperties(result.data);
-            const difference = getAllProps.filter(item => !result.data.includes(item));
-            setPropertiesToAdd(difference);
-        }).catch((e) => {
-            toast.error(e)
-        })
-    }
+        http.api.papersDetailsDetail(productId)
+            .then((result: AxiosResponse<PaperProperties[]>) => {
+                setProperties(result.data);
+                const existingPropertyIds = new Set(result.data.map(item => item.propId));
+                const difference = getAllProps.filter(item => !existingPropertyIds.has(item.propId));
+                setPropertiesToAdd(difference);
+            })
+            .catch((e) => {
+                toast.error(e.message || 'An error occurred');
+            });
+    };
+
     const closeWindow = () => {
         setOpenClass("");
         openModal();
@@ -101,7 +102,7 @@ export const EditProduct = ({isOpen, openModal, product}: OpenModal) => {
     const editStock = (value: string) => {
         const parsedValue = Number(value);  // Convert string to number
         if (isNaN(parsedValue)) {
-            setProductToEdit({...productToEdit, stock:0})
+            setProductToEdit({...productToEdit, stock: 0})
         } else {
             setProductToEdit({...productToEdit, stock: parsedValue})
         }
@@ -140,10 +141,10 @@ export const EditProduct = ({isOpen, openModal, product}: OpenModal) => {
     const performEdit = () => {
         console.log(productToEdit);
 
-        if(!areFieldsValid()){
+        if (!areFieldsValid()) {
             return;
         }
-        if(!areChangesMade()){
+        if (!areChangesMade()) {
             openModal();
             toast.success("Edit operation succeeded");
             return;
@@ -176,8 +177,8 @@ export const EditProduct = ({isOpen, openModal, product}: OpenModal) => {
         return !areEqual;
     };
 
-    const areFieldsValid = ()=>{
-        return productToEdit.name!=="";
+    const areFieldsValid = () => {
+        return productToEdit.name !== "";
     }
 
 

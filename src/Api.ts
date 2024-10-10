@@ -9,6 +9,8 @@
  * ---------------------------------------------------------------
  */
 
+import {CreateProductDto} from "../Api.ts";
+
 export interface CreatePropertyDto {
   propertyName?: string | null;
 }
@@ -484,23 +486,40 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
 
-    /**
-     * No description
-     *
-     * @tags Paper
-     * @name AdminCreatePaperCreate
-     * @request POST:/api/admin/createPaper
-     */
-    adminCreatePaperCreate: (data: CreatePropertyDto, params: RequestParams = {}) =>
-      this.request<void, any>({
-        path: `/api/admin/createPaper`,
-        method: "POST",
-        body: data,
-        type: ContentType.Json,
-        ...params,
-      }),
+      /**
+       * No description
+       *
+       * @tags Paper
+       * @name AdminCreatePropertyCreate
+       * @request POST:/api/admin/createProperty
+       */
+      adminCreatePropertyCreate: (data: CreatePropertyDto, params: RequestParams = {}) =>
+          this.request<void, any>({
+              path: `/api/admin/createProperty`,
+              method: "POST",
+              body: data,
+              type: ContentType.Json,
+              ...params,
+          }),
 
-    /**
+      /**
+       * No description
+       *
+       * @tags Paper
+       * @name AdminCreatePaperCreate
+       * @request POST:/api/admin/createPaper
+       */
+      adminCreatePaperCreate: (data: CreateProductDto, params: RequestParams = {}) =>
+          this.request<PaperToDisplay, any>({
+              path: `/api/admin/createPaper`,
+              method: "POST",
+              body: data,
+              type: ContentType.Json,
+              ...params,
+          }),
+
+
+      /**
      * No description
      *
      * @tags Paper

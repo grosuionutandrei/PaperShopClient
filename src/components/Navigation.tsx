@@ -4,6 +4,7 @@ import {ROUTES} from "../Routes/Routes.tsx";
 import {UserTypeAtom} from "../atoms/UserTypeAtom.tsx";
 import {useAtom} from "jotai";
 import {Users} from "../Models/Users.tsx";
+import { AdminOptions } from "./admin/AdminOptions.tsx";
 
 export default function Navigation() {
     const navigate =  useNavigate();
@@ -47,6 +48,12 @@ export default function Navigation() {
                         </svg>
                 </label>
             </div>
+            {
+                loggedUser===Users.admin&&(
+                    <AdminOptions></AdminOptions>
+                )
+            }
+
             {loggedUser===Users.customer&& (
                 <div className="flex-none">
                     <div className="dropdown dropdown-end">

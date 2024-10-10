@@ -12,7 +12,7 @@ export const  AdminPage = ()=>{
                 <Navigation></Navigation>
             </nav>
             <Routes>
-                <Route path={`${ROUTES.Admin}/:pageNumber`} element={<AdminHomePage/>}></Route>
+                <Route path={"/api/admin/:pageNumber"} element={<AdminHomePage/>}></Route>
             </Routes>
         </>
     )

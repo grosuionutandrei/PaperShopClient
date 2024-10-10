@@ -40,7 +40,7 @@ const HomePage = () => {
                             Manage products, inventory, and orders from the admin panel.
                         </p>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary" onClick={()=>{navigate(`${ROUTES.Admin}/${firstPage}`);saveUser(Users.admin)}}>Go to Admin</button>
+                            <button className="btn btn-primary" onClick={()=>{navigate(`/api/admin/${firstPage}`);saveUser(Users.admin)}}>Go to Admin</button>
                         </div>
                     </div>
                 </div>

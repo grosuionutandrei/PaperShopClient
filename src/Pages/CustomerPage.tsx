@@ -13,7 +13,7 @@ export const CustomerPage = ()=>{
          <Navigation></Navigation>
      </nav>
     <Routes>
-        <Route path={"/api/papers/:pageNumber"} element={<ProductsMainPage/>}></Route>
+        <Route path="/api/papers/:pageNumber" element={<ProductsMainPage/>}></Route>
         <Route path={`${ROUTES.History}/:customerId/orders`} element={<OrderHistoryPage/>}></Route>
         <Route path={ROUTES.Cart} element={<PlaceOrderPage/>}></Route>
     </Routes>

@@ -9,6 +9,16 @@
  * ---------------------------------------------------------------
  */
 
+export interface CreateProductDto {
+  name?: string | null;
+  discontinued?: boolean;
+  /** @format int32 */
+  stock?: number;
+  /** @format double */
+  price?: number;
+  paperPropertiesList?: PaperProperties[] | null;
+}
+
 export interface CreatePropertyDto {
   propertyName?: string | null;
 }
@@ -107,7 +117,7 @@ export interface PaperToDisplay {
   stock?: number;
   /** @format double */
   price?: number;
-  paperPropertiesList?: PaperProperties[] | null;
+  paperPropertiesList?: any[] | null;
 }
 
 export interface PriceRange {
@@ -490,10 +500,26 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Paper
+     * @name AdminCreatePropertyCreate
+     * @request POST:/api/admin/createProperty
+     */
+    adminCreatePropertyCreate: (data: CreatePropertyDto, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/admin/createProperty`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Paper
      * @name AdminCreatePaperCreate
      * @request POST:/api/admin/createPaper
      */
-    adminCreatePaperCreate: (data: CreatePropertyDto, params: RequestParams = {}) =>
+    adminCreatePaperCreate: (data: CreateProductDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/admin/createPaper`,
         method: "POST",

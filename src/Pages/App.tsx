@@ -17,8 +17,7 @@ import {AdminPage} from "./AdminPage.tsx";
 
 
 const App = () => {
-const [loggedUser] =  useAtom(UserTypeAtom);
-
+    const [loggedUser] = useAtom(UserTypeAtom);
 
 
     return (
@@ -27,13 +26,15 @@ const [loggedUser] =  useAtom(UserTypeAtom);
             <div className="min-h-screen flex flex-col">
                 <Routes>
                     <Route path={""} element={<ShopHomePage/>}/>
+
                 </Routes>
-                {loggedUser===Users.customer&&(
-                   <CustomerPage></CustomerPage>
+                {loggedUser === Users.customer && (
+                    <CustomerPage></CustomerPage>
                 )}
-                {loggedUser===Users.admin&&(
+                {loggedUser === Users.admin && (
                     <AdminPage></AdminPage>
                 )}
+
                 <Footer></Footer>
             </div>
         </>

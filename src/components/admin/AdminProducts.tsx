@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useAtom} from "jotai/index";
 import {ProductsAtom} from "../../atoms/ProductsAtom.tsx";
 import {ITEMS_PER_PAGE} from "../../atoms/ItemsPerPage.tsx";
@@ -12,7 +12,7 @@ import {PaperToDisplay} from "../../Api.ts";
 import {REFRESH_CART} from "../../atoms/AddToCart.tsx";
 
 export const AdminProducts = () => {
-    const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [productData, setProductData] = useAtom(ProductsAtom);
     const [productToEdit, setProductToEdit] = useState<PaperToDisplay>({});
@@ -21,11 +21,11 @@ export const AdminProducts = () => {
     const [refreshPage, setRefreshPage] = useAtom(REFRESH_CART);
 
     useEffect(() => {
-        if (!refreshPage) {
-            return;
-        }
         GetProducts();
-        setRefreshPage(false);
+
+        if (refreshPage) {
+            setRefreshPage(false);
+        }
     }, [pageNumber, refreshPage]);
 
 
@@ -54,7 +54,7 @@ export const AdminProducts = () => {
     };
 
     const openModal = () => {
-        setModalOpen(!modalOpen);
+        setEditModalOpen(!editModalOpen);
     }
 
     const getProductId = (productId: number) => {
@@ -83,7 +83,8 @@ export const AdminProducts = () => {
                                          product={product} openModal={openModal} getPaperId={getProductId}/>
                 ))
             )}
-            <EditProduct isOpen={modalOpen} openModal={openModal} product={productToEdit}></EditProduct>
+            <EditProduct isOpen={editModalOpen} openModal={openModal} product={productToEdit}></EditProduct>
+
         </>
 
     )
