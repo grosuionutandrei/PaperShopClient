@@ -22,7 +22,6 @@ export const AdminProducts = () => {
 
     useEffect(() => {
         GetProducts();
-
         if (refreshPage) {
             setRefreshPage(false);
         }
@@ -84,7 +83,6 @@ export const AdminProducts = () => {
                 ))
             )}
             <EditProduct isOpen={editModalOpen} openModal={openModal} product={productToEdit}></EditProduct>
-
         </>
 
     )

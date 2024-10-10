@@ -4,9 +4,11 @@ import {AdminProducts} from "../components/admin/AdminProducts.tsx";
 import {CreateProduct} from "../components/admin/CreateProduct.tsx";
 import {useAtom} from "jotai";
 import {CREATE_MODAL} from "../atoms/OpenCretaModal.tsx";
+import PropertiesView from "../components/admin/PropertiesView.tsx";
 
 export const AdminHomePage = () => {
     const [openCreateModal, setOpenCreateModal] = useAtom(CREATE_MODAL);
+
 
     const handleCreateModal = () => {
         setOpenCreateModal(!openCreateModal);
@@ -25,6 +27,7 @@ export const AdminHomePage = () => {
                 </div>
             </main>
             <CreateProduct isOpen={openCreateModal} openModal={handleCreateModal}></CreateProduct>
+            <PropertiesView></PropertiesView>
         </div>
 
     )
