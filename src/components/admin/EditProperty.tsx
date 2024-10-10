@@ -1,18 +1,44 @@
 import {PaperProperties} from "../../Api.ts";
 import {useEffect, useState} from "react";
+import {useAtom} from "jotai";
+import {RERENDER_PROPERTY_EDIT} from "../../atoms/OpenPropertiesModal.tsx";
+import {http} from "../../http.ts";
+import {AxiosResponse} from "axios";
+interface Render {
+    rerender: boolean
+    property: PaperProperties
+}
 
-
-export const EditProperty = ({propName}: PaperProperties) => {
-    const [propertyToEdit, setPropertyToEdit] = useState<string>(propName!);
+export const EditProperty = ({property, rerender}: Render) => {
+    const [propertyToEdit, setPropertyToEdit] = useState<string>(property.propName!);
+    const [, setRerender] = useAtom(RERENDER_PROPERTY_EDIT);
     useEffect(() => {
-        setPropertyToEdit(propName!);
-    }, []);
+        if (rerender) {
+            setPropertyToEdit(property.propName!);
+            setRerender(false);
+        }
+    }, [rerender]);
+
+
+
+    //ToDo
+    const saveEditOperation = ()=> {
+        if (propertyToEdit === "") {
+            return;
+        }
+        //     const edited:PaperProperties = {propId:property.propId,propName:propertyToEdit}
+        //    http.api.adminEditPaperProprietyPartialUpdate(edited).then((result:AxiosResponse<PaperProperties>)=>{
+        //
+        //    })
+        // }
+    }
     return (
-        <div className={"flex h-20 items-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200"}>
-            <input  className={"peer invalid:border-red-500"} type="text" required={true} value={propertyToEdit}
+        <div
+            className={"flex h-32 items-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200"}>
+            <input className={"peer invalid:border-red-500"} type="text" required={true} value={propertyToEdit}
                    onChange={(e) => setPropertyToEdit(e.target.value)}></input>
-            <span className={"hidden text-red-500 peer-invalid:block peer-focus-within:hidden"}></span>
-            <button className={"btn btn-secondary"}>
+            <span className={"hidden text-red-500 peer-invalid:block peer-focus:hidden"}></span>
+            <button onClick={() => setRerender(false)} className={"btn btn-secondary"}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      className="bi bi-floppy" viewBox="0 0 16 16">
                     <path d="M11 2H9v3h2z"/>
