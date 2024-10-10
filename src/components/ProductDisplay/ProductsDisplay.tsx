@@ -16,8 +16,6 @@ export const ProductsDisplay = ()=>{
     const [pageItems] =  useAtom(ITEMS_PER_PAGE);
     const {pageNumber} =  useParams();
 
-
-
     const GetProducts = () => {
         if (pageNumber) {
             const pageNum = parseInt(pageNumber, 10);

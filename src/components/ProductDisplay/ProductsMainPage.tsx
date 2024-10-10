@@ -1,7 +1,7 @@
 import {Filters} from "../Filters.tsx";
 import {ProductsDisplay} from "./ProductsDisplay.tsx";
 import React, {useState} from "react";
-import {ProductDetails} from "./ProductDetails.tsx";
+
 
 export const ProductsMainPage = () => {
 
