@@ -185,9 +185,6 @@ export const EditProduct = ({isOpen, openModal, product}: OpenModal) => {
     return (
         <dialog className={`modal ${openClass}`}>
             <div className="modal-box w-11/12 max-w-xl">
-                {/*<div className={"flex justify-end"}>*/}
-                {/*    <DeletePaper paperId={product.id!} openModal={openModal}></DeletePaper>*/}
-                {/*</div>*/}
                 <label className="form-control w-full max-w-xs">
                     <div className="label">
                         <span className="label-text">PaperName</span>

@@ -100,6 +100,8 @@ export interface PaperProperties {
   propName?: string | null;
 }
 
+
+
 export interface PaperToDisplay {
   /** @format int32 */
   id?: number;
@@ -527,7 +529,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/api/admin/editPaperPropriety
      */
     adminEditPaperProprietyPartialUpdate: (data: EditPaperPropertyDto, params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<PaperProperties, any>({
         path: `/api/admin/editPaperPropriety`,
         method: "PATCH",
         body: data,
@@ -543,9 +545,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PATCH:/api/admin/deletePaperPropriety
      */
     adminDeletePaperProprietyPartialUpdate: (data: EditPaperPropertyDto, params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<EditPaperPropertyDto, any>({
         path: `/api/admin/deletePaperPropriety`,
-        method: "PATCH",
+        method: "DELETE",
         body: data,
         type: ContentType.Json,
         ...params,
