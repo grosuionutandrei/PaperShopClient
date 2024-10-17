@@ -26,15 +26,16 @@ const App = () => {
             <div className="min-h-screen flex flex-col">
                 <Routes>
                     <Route path={""} element={<ShopHomePage/>}/>
-
+                    {loggedUser === Users.admin && (
+                        <Route path="/api/admin/*" element={<AdminPage />} />
+                    )}
                 </Routes>
                 {loggedUser === Users.customer && (
                     <CustomerPage></CustomerPage>
                 )}
-                {loggedUser === Users.admin && (
-                    <AdminPage></AdminPage>
-                )}
-
+                {/*{loggedUser === Users.admin && (*/}
+                {/*    <AdminPage></AdminPage>*/}
+                {/*)}*/}
                 <Footer></Footer>
             </div>
         </>
