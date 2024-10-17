@@ -1,75 +1,104 @@
-import {PaperProperties} from "../../Api.ts";
+import {EditPaperPropertyDto, PaperProperties} from "../../Api.ts";
 import {useEffect, useState} from "react";
 import {useAtom} from "jotai";
 import {RERENDER_PROPERTY_EDIT} from "../../atoms/OpenPropertiesModal.tsx";
-interface Render {
+import {http} from "../../http.ts";
+import {AxiosResponse} from "axios";
+import {toast} from "react-hot-toast";
+import {useNavigate} from "react-router-dom";
+import {RETRIEVE_PROPERTIES} from "../../atoms/EditPropertyAtom.tsx";
+import {EditPropertyOptions} from "./EditPropertyOptions.tsx";
+
+export interface Render {
     property: PaperProperties
 }
 
 export const EditProperty = ({property}: Render) => {
-    const [propertyToEdit, setPropertyToEdit] = useState<string>(property.propName!);
+    const [propertyToEdit, setPropertyToEdit] = useState<string>(property.propName! || "");
     const [rerender, setRerender] = useAtom(RERENDER_PROPERTY_EDIT);
-    const [modalClass,setModalClass] =  useState<string>("modal-close");
-
+    const [, setRenderAfterEdit] = useAtom(RETRIEVE_PROPERTIES);
+    const [modalClass, setModalClass] = useState<string>("modal-close");
+    const [requiredAttribute, setRequiredAttribute] = useState(false);
+    const navigate = useNavigate();
     useEffect(() => {
         if (rerender) {
             setPropertyToEdit(property.propName!);
             setModalClass("modal-open");
-        }else{
+        } else {
             setModalClass("modal-close");
         }
     }, [rerender]);
 
-
-    const captureEditedValue = (value :string)=>{
+    const captureEditedValue = (value: string) => {
         setPropertyToEdit(value);
     }
 
-    const closeEditWindow = ()=>{
+    const closeEditWindow = () => {
+        navigate("/api/admin/properties", {replace: true});
         setRerender(false);
     }
-    //ToDo
-    const saveEditOperation = ()=> {
+
+    const saveEditOperation = () => {
         if (propertyToEdit === "") {
+            setRequiredAttribute(true);
             return;
         }
-        //     const edited:PaperProperties = {propId:property.propId,propName:propertyToEdit}
-        //    http.api.adminEditPaperProprietyPartialUpdate(edited).then((result:AxiosResponse<PaperProperties>)=>{
-        //
-        //    })
-        // }
+        if (propertyToEdit === property.propName) {
+            navigate("/api/admin/properties", {replace: true});
+            closeEditWindow();
+            toast.success(`Property edited successful! New name is ${property.propName}`);
+
+        } else {
+            setRequiredAttribute(false);
+            const edited: EditPaperPropertyDto = {propertyId: property.propId, propName: propertyToEdit};
+            http.api.adminEditPaperProprietyPartialUpdate(edited).then((response: AxiosResponse<PaperProperties>) => {
+                if (response.status == 200) {
+                    const editedProp: PaperProperties = response.data;
+                    navigate("/api/admin/properties", {replace: true});
+                    setRenderAfterEdit(true);
+                    toast.success(`Property edited successful! New name is ${editedProp.propName}`);
+                } else {
+                    toast.error("Edit operation unsuccessfully");
+                }
+                closeEditWindow();
+            }).catch((e) => {
+                if (e.response && e.response.data && e.response.data.message) {
+                    toast.error(`Error: ${e.response.data.message}`);
+                } else {
+                    toast.error("An unexpected error occurred.");
+                }
+            })
+        }
     }
+
     return (
-
-
-        <dialog id="my_modal_1" className={`modal ${modalClass}` }>
+        <dialog id="my_modal_1" className={`modal ${modalClass}`}>
             <div className="modal-box">
-                <h3 className="font-bold text-lg">Hello!</h3>
-                <p className="py-4">Press ESC key or click the button below to close</p>
-                <input type={"text"} value={propertyToEdit} onChange={(e)=>{captureEditedValue(e.target.value)}}></input>
-                <div className="modal-action">
+                <div className={"flex justify-between"}>
+                    <h3 className="font-bold text-lg">Edit property!</h3>
+                <EditPropertyOptions></EditPropertyOptions>
+                </div>
+
+                <p className="py-4">The entered value will be the property's new name!</p>
+                <input required={requiredAttribute} type={"text"} value={propertyToEdit} className={"peer"}
+                       onChange={(e) => {
+                           captureEditedValue(e.target.value)
+                       }}></input>
+                <p className="text-transparent peer-invalid:text-red-500 peer-focus-within:text-transparent h-6">
+                    The new name cannot be empty!
+                </p>
+
+                <div className="modal-action mt-2.5">
                     <form method="dialog">
-                        <button className="btn" onClick={closeEditWindow}>Close</button>
+                        <button className="btn border-blue-500 bg-blue-400 mr-2 "
+                                onClick={closeEditWindow}>&#10006;</button>
+                        <button className="btn border-emerald-500 bg-emerald-400"
+                                onClick={saveEditOperation}>&#10004;</button>
                     </form>
                 </div>
             </div>
         </dialog>
 
-
-        // <div
-        //     className={"flex h-32 items-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200"}>
-        //     <input className={"peer invalid:border-red-500"} type="text" required={true} value={propertyToEdit}
-        //            onChange={(e) => setPropertyToEdit(e.target.value)}></input>
-        //     <span className={"hidden text-red-500 peer-invalid:block peer-focus:hidden"}></span>
-        //     <button onClick={() => setRerender(false)} className={"btn btn-secondary"}>
-        //         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-        //              className="bi bi-floppy" viewBox="0 0 16 16">
-        //             <path d="M11 2H9v3h2z"/>
-        //             <path
-        //                 d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
-        //         </svg>
-        //     </button>
-        // </div>
     )
 
 }

@@ -13,8 +13,10 @@ export const AdminPage = () => {
                 <Navigation></Navigation>
             </nav>
             <Routes>
-                <Route path={":pageNumber"} element={<AdminHomePage/>}></Route>
+                <Route path={"papers/:pageNumber"} element={<AdminHomePage/>}></Route>
                 <Route path={"properties"} element={<AdminProperties/>}></Route>
+                <Route path={"properties/edit"} element={<AdminProperties/>}></Route>
+                <Route path={"properties/edit/delete"} element={<AdminProperties/>}></Route>
             </Routes>
         </>
     )

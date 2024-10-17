@@ -2,21 +2,18 @@ import React, {useState} from "react";
 import {PaperProperties} from "../../Api.ts";
 import {useAtom} from "jotai";
 import {RERENDER_PROPERTY_EDIT} from "../../atoms/OpenPropertiesModal.tsx";
-import {EditProperty} from "./EditProperty.tsx";
+import {useNavigate} from "react-router-dom";
 
 
 interface PaperPropertiesView {
     paperProps: PaperProperties
     index: number
-    getPropToEdit:(propToEdit:PaperProperties)=>void
+    getPropToEdit: (propToEdit: PaperProperties) => void
 }
 
-export const PropertyView = ({paperProps, index,getPropToEdit}: PaperPropertiesView) => {
-    // const editOpened: string = "collapse-open";
-    // const editClosed: string = "collapse-close";
-    // const [openEdit, setOpenEdit] = useState(editClosed);
+export const PropertyView = ({paperProps, index, getPropToEdit}: PaperPropertiesView) => {
     const [, setRenderEditPropertiesModal] = useAtom(RERENDER_PROPERTY_EDIT);
-
+    const navigate = useNavigate();
 
     const openEditModal = () => {
         setRenderEditPropertiesModal(true);
@@ -35,12 +32,14 @@ export const PropertyView = ({paperProps, index,getPropToEdit}: PaperPropertiesV
                             <span className="text-blue-500 text-2xl mr-4">•</span>
                             <span className="text-lg text-gray-600">{paperProps.propName}</span>
                         </div>
-                        <button className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    openEditModal();
-                                    getPropToEdit(paperProps);
-                                }}>
+                        <button
+                            className={`btn btn-xs sm:btn-sm md:btn-md lg:btn-lg ${index % 2 === 0 ? 'border-white' : 'border-blue-300'}`}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                openEditModal();
+                                getPropToEdit(paperProps);
+                                navigate("/api/admin/properties/edit", {replace: true})
+                            }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  className="bi bi-pencil-square" viewBox="0 0 16 16">
                                 <path
