@@ -5,6 +5,7 @@ import {http} from "../../http.ts";
 import {AxiosResponse} from "axios";
 import {toast} from "react-hot-toast";
 import  {transformPaperPropertiesToString} from "../../Utils/Utils.tsx"
+import {useLocation} from "react-router-dom";
 
 export interface OrderItem {
     orderItem: OrderMain
@@ -15,6 +16,7 @@ export const OrderHistoryItem = ({orderItem}: OrderItem) => {
     const [orderDetails, setOrderDetails] = useState<OrderEntryQto[]>([])
     const open = "collapse-open";
     const close = "collapse-close";
+    const location = useLocation();
     const switchClasses = () => {
         if (windowControl === "collapse-close") {
             setWindowControl(open);

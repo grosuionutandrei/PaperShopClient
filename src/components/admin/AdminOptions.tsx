@@ -36,19 +36,17 @@ export const AdminOptions = () => {
                         ) : (
                             <>
                                 <li><a onClick={() => setOpenCreateModal(true)}>CreatePaper</a></li>
+                                <li><a onClick={() => navigate("/api/admin/customers")}>Customers</a></li>
                                 <li><a onClick={() => {
                                     navigate("/api/admin/properties");
                                     setRetrieveProperties(true);
                                 }}>Properties</a></li>
 
+
                             </>
 
                         )
-
-
                 }
-
-
             </ul>
         </div>
     )

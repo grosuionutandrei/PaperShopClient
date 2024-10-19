@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import {CreateProductDto} from "../Api.ts";
+import {CreateProductDto, CustomerMain} from "../Api.ts";
 
 export interface CreatePropertyDto {
   propertyName?: string | null;
@@ -38,6 +38,14 @@ export enum DayOfWeek {
   Value4 = 4,
   Value5 = 5,
   Value6 = 6,
+}
+export interface CustomerMain {
+    /** @format int32 */
+    customerId?: number;
+    name?: string | null;
+    address?: string | null;
+    phoneNumber?: string | null;
+    email?: string | null;
 }
 
 export interface EditPaperDto {
@@ -501,6 +509,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
               method: "POST",
               body: data,
               type: ContentType.Json,
+              ...params,
+          }),
+      /**
+       * No description
+       *
+       * @tags Order
+       * @name AdminCustomersList
+       * @request GET:/api/admin/customers
+       */
+      adminCustomersList: (params: RequestParams = {}) =>
+          this.request<CustomerMain[], any>({
+              path: `/api/admin/customers`,
+              method: "GET",
+              format: "json",
               ...params,
           }),
 
