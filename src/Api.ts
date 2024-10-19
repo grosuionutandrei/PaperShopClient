@@ -496,7 +496,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
        * @request POST:/api/admin/createProperty
        */
       adminCreatePropertyCreate: (data: CreatePropertyDto, params: RequestParams = {}) =>
-          this.request<void, any>({
+          this.request<PaperProperties, any>({
               path: `/api/admin/createProperty`,
               method: "POST",
               body: data,

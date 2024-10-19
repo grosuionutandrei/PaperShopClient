@@ -8,6 +8,7 @@ import {EditProperty} from "./EditProperty.tsx";
 import {useAtom} from "jotai";
 import {RETRIEVE_PROPERTIES} from "../../atoms/EditPropertyAtom.tsx";
 import {DeleteProperty} from "./DeleteProperty.tsx";
+import {CreateProperty} from "./CreateProperty.tsx";
 
 
 export const ItemList = () => {
@@ -18,9 +19,8 @@ export const ItemList = () => {
     useEffect(() => {
         if(renderProperties){
             getProperties();
-          //  setRenderProperties(false);
         }
-    },[renderProperties]);
+    },[renderProperties,properties]);
 
 
     const getPropToEdit = (propToEdit:PaperProperties)=>{
@@ -55,6 +55,7 @@ export const ItemList = () => {
             </div>
             <EditProperty property={propToEdit}></EditProperty>
             <DeleteProperty property={propToEdit}></DeleteProperty>
+            <CreateProperty></CreateProperty>
         </main>
     );
 };

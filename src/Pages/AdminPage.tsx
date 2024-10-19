@@ -1,4 +1,4 @@
-import {ROUTES} from "../Routes/Routes.tsx";
+
 import {AdminHomePage} from "./AdminMainPage.tsx";
 import {Route, Routes} from "react-router-dom";
 import React from "react";
@@ -15,6 +15,7 @@ export const AdminPage = () => {
             <Routes>
                 <Route path={"papers/:pageNumber"} element={<AdminHomePage/>}></Route>
                 <Route path={"properties"} element={<AdminProperties/>}></Route>
+                <Route path={"properties/create"} element={<AdminProperties/>}></Route>
                 <Route path={"properties/edit"} element={<AdminProperties/>}></Route>
                 <Route path={"properties/edit/delete"} element={<AdminProperties/>}></Route>
             </Routes>

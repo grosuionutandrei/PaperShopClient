@@ -1,8 +1,8 @@
 import {useAtom} from "jotai";
 import {REFRESH_CART} from "../../atoms/AddToCart.tsx";
 import {CREATE_MODAL} from "../../atoms/OpenCretaModal.tsx";
-import {OPEN_PROPERTIES_MODAL} from "../../atoms/OpenPropertiesModal.tsx";
-import {useLocation, useNavigate} from "react-router-dom";
+import {OPEN_PROPERTIES_MODAL, RENDEr_PROPERTY_CREATE} from "../../atoms/OpenPropertiesModal.tsx";
+import {replace, useLocation, useNavigate} from "react-router-dom";
 import {RETRIEVE_PROPERTIES} from "../../atoms/EditPropertyAtom.tsx";
 
 interface PaperToDelete {
@@ -15,6 +15,7 @@ export const AdminOptions = () => {
     const [, setRetrieveProperties] = useAtom(RETRIEVE_PROPERTIES);
     const navigate = useNavigate();
     const location = useLocation();
+    const [,setOpenCreate] = useAtom(RENDEr_PROPERTY_CREATE);
     return (
         <div className="dropdown dropdown-end ">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
@@ -29,9 +30,9 @@ export const AdminOptions = () => {
                     location.pathname.includes("properties") ?
                         (
                             <li><a onClick={() => {
-                                navigate("/api/admin/properties");
-                                setRetrieveProperties(true);
-                            }}>Properties</a></li>
+                                navigate("/api/admin/properties/create",{replace:true});
+                                setOpenCreate(true);
+                            }}>Create property</a></li>
                         ) : (
                             <>
                                 <li><a onClick={() => setOpenCreateModal(true)}>CreatePaper</a></li>
