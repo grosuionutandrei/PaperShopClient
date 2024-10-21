@@ -9,7 +9,35 @@
  * ---------------------------------------------------------------
  */
 
-import {CreateProductDto} from "../Api.ts";
+
+export interface StatusUpdateResponse{
+    success:true,
+    message:string
+}
+export interface CreateProductDto {
+    name?: string | null;
+    discontinued?: boolean;
+    /** @format int32 */
+    stock?: number;
+    /** @format double */
+    price?: number;
+    paperPropertiesList?: PaperProperties[] | null;
+}
+export interface Status{
+    status:string;
+}
+export interface CreatePropertyDto {
+    propertyName?: string | null;
+}
+
+export interface CustomerMain {
+    /** @format int32 */
+    customerId?: number;
+    name?: string | null;
+    address?: string | null;
+    phoneNumber?: string | null;
+    email?: string | null;
+}
 
 export interface CreatePropertyDto {
   propertyName?: string | null;
@@ -39,6 +67,7 @@ export enum DayOfWeek {
   Value5 = 5,
   Value6 = 6,
 }
+
 
 export interface EditPaperDto {
   /** @format int32 */
@@ -496,11 +525,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
        * @request POST:/api/admin/createProperty
        */
       adminCreatePropertyCreate: (data: CreatePropertyDto, params: RequestParams = {}) =>
-          this.request<void, any>({
+          this.request<PaperProperties, any>({
               path: `/api/admin/createProperty`,
               method: "POST",
               body: data,
               type: ContentType.Json,
+              ...params,
+          }),
+      /**
+       * No description
+       *
+       * @tags Order
+       * @name AdminCustomersList
+       * @request GET:/api/admin/customers
+       */
+      adminCustomersList: (params: RequestParams = {}) =>
+          this.request<CustomerMain[], any>({
+              path: `/api/admin/customers`,
+              method: "GET",
+              format: "json",
               ...params,
           }),
 
@@ -561,14 +604,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name HistoryDetail
      * @request GET:/customer/{customerId}/history
      */
-    historyDetail: (customerId: string, data: IdentificationDto, params: RequestParams = {}) =>
+    historyDetail: (customerId: string, params: RequestParams = {}) =>
       this.request<OrderMain[], any>({
         path: `/customer/${customerId}/history`,
         method: "GET",
-        body: data,
         type: ContentType.Json,
         format: "json",
         ...params,
       }),
+      /**
+       * No description
+       *
+       * @tags Order
+       * @name OrderEditPartialUpdate
+       * @request PATCH:/api/admin/customers/orders/{orderId}/update
+       */
+      orderStatusUpdate: (
+          orderId: number,
+           data:Status,
+          params: RequestParams = {},
+      ) =>
+          this.request<StatusUpdateResponse, any>({
+              path: `/api/admin/customers/orders/${orderId}/update`,
+              method: "PATCH",
+              body: data,
+              format: "json",
+              ...params,
+          }),
   };
 }

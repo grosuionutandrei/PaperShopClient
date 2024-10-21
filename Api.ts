@@ -23,6 +23,15 @@ export interface CreatePropertyDto {
   propertyName?: string | null;
 }
 
+export interface CustomerMain {
+  /** @format int32 */
+  customerId?: number;
+  name?: string | null;
+  address?: string | null;
+  phoneNumber?: string | null;
+  email?: string | null;
+}
+
 export interface DateOnly {
   /** @format int32 */
   year?: number;
@@ -125,6 +134,10 @@ export interface PriceRange {
   minimumRange?: number | null;
   /** @format double */
   maximumRange?: number | null;
+}
+
+export interface Status {
+  status?: string | null;
 }
 
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
@@ -339,6 +352,38 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags Order
+     * @name AdminCustomersList
+     * @request GET:/api/admin/customers
+     */
+    adminCustomersList: (params: RequestParams = {}) =>
+      this.request<CustomerMain[], any>({
+        path: `/api/admin/customers`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Order
+     * @name AdminCustomersOrdersUpdatePartialUpdate
+     * @request PATCH:/api/admin/customers/orders/{orderId}/update
+     */
+    adminCustomersOrdersUpdatePartialUpdate: (orderId: number, data: Status, params: RequestParams = {}) =>
+      this.request<boolean, any>({
+        path: `/api/admin/customers/orders/${orderId}/update`,
+        method: "PATCH",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags Paper
      * @name PapersDetail
      * @request GET:/api/papers/{pageNumber}
@@ -520,11 +565,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/api/admin/createPaper
      */
     adminCreatePaperCreate: (data: CreateProductDto, params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<PaperToDisplay, any>({
         path: `/api/admin/createPaper`,
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -548,13 +594,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Paper
-     * @name AdminDeletePaperProprietyPartialUpdate
-     * @request PATCH:/api/admin/deletePaperPropriety
+     * @name AdminDeletePaperProprietyDelete
+     * @request DELETE:/api/admin/deletePaperPropriety
      */
-    adminDeletePaperProprietyPartialUpdate: (data: EditPaperPropertyDto, params: RequestParams = {}) =>
+    adminDeletePaperProprietyDelete: (data: EditPaperPropertyDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/admin/deletePaperPropriety`,
-        method: "PATCH",
+        method: "DELETE",
         body: data,
         type: ContentType.Json,
         ...params,

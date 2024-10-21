@@ -1,9 +1,11 @@
-import {ROUTES} from "../Routes/Routes.tsx";
+
 import {AdminHomePage} from "./AdminMainPage.tsx";
 import {Route, Routes} from "react-router-dom";
 import React from "react";
 import Navigation from "../components/Navigation.tsx";
 import {AdminProperties} from "./AdminProperties.tsx";
+import {Customers} from "../components/admin/customers/Customers.tsx";
+import {CustomerOrderHistory} from "../components/admin/customers/CustomerOrderHistory.tsx";
 
 export const AdminPage = () => {
 
@@ -15,8 +17,12 @@ export const AdminPage = () => {
             <Routes>
                 <Route path={"papers/:pageNumber"} element={<AdminHomePage/>}></Route>
                 <Route path={"properties"} element={<AdminProperties/>}></Route>
+                <Route path={"properties/create"} element={<AdminProperties/>}></Route>
                 <Route path={"properties/edit"} element={<AdminProperties/>}></Route>
                 <Route path={"properties/edit/delete"} element={<AdminProperties/>}></Route>
+                <Route path={"customers"} element={<Customers/>}></Route>
+                <Route path={"customers/:customerId/history"} element={<CustomerOrderHistory/>}></Route>
+
             </Routes>
         </>
     )
