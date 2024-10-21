@@ -136,6 +136,10 @@ export interface PriceRange {
   maximumRange?: number | null;
 }
 
+export interface Status {
+  status?: string | null;
+}
+
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
 import axios from "axios";
 
@@ -356,6 +360,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<CustomerMain[], any>({
         path: `/api/admin/customers`,
         method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Order
+     * @name AdminCustomersOrdersUpdatePartialUpdate
+     * @request PATCH:/api/admin/customers/orders/{orderId}/update
+     */
+    adminCustomersOrdersUpdatePartialUpdate: (orderId: number, data: Status, params: RequestParams = {}) =>
+      this.request<boolean, any>({
+        path: `/api/admin/customers/orders/${orderId}/update`,
+        method: "PATCH",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

@@ -15,7 +15,7 @@ export const AdminOptions = () => {
     const [, setRetrieveProperties] = useAtom(RETRIEVE_PROPERTIES);
     const navigate = useNavigate();
     const location = useLocation();
-    const [,setOpenCreate] = useAtom(RENDEr_PROPERTY_CREATE);
+    const [, setOpenCreate] = useAtom(RENDEr_PROPERTY_CREATE);
     return (
         <div className="dropdown dropdown-end ">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
@@ -26,27 +26,33 @@ export const AdminOptions = () => {
             <ul
                 tabIndex={0}
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                {
-                    location.pathname.includes("properties") ?
-                        (
+                {location.pathname.includes("properties") ? (
+                        <>
                             <li><a onClick={() => {
-                                navigate("/api/admin/properties/create",{replace:true});
+                                navigate("/api/admin/properties/create", {replace: true});
                                 setOpenCreate(true);
                             }}>Create property</a></li>
-                        ) : (
-                            <>
-                                <li><a onClick={() => setOpenCreateModal(true)}>CreatePaper</a></li>
-                                <li><a onClick={() => navigate("/api/admin/customers")}>Customers</a></li>
-                                <li><a onClick={() => {
-                                    navigate("/api/admin/properties");
-                                    setRetrieveProperties(true);
-                                }}>Properties</a></li>
-
-
-                            </>
-
-                        )
-                }
+                            <li><a onClick={() => navigate("/api/admin/customers")}>Customers</a></li>
+                            <li><a onClick={() => navigate("/api/admin/papers/0")}>Products</a></li>
+                        </>)
+                    : location.pathname.includes("customers") ? (
+                        <>
+                        <li><a onClick={() => {
+                            navigate("/api/admin/properties");
+                            setRetrieveProperties(true);
+                        }}>Properties</a></li>
+                        <li><a onClick={() => navigate("/api/admin/papers/0")}>Products</a></li>
+                        </>
+                    ) : (
+                        <>
+                            <li><a onClick={() => setOpenCreateModal(true)}>CreatePaper</a></li>
+                            <li><a onClick={() => navigate("/api/admin/customers")}>Customers</a></li>
+                            <li><a onClick={() => {
+                                navigate("/api/admin/properties");
+                                setRetrieveProperties(true);
+                            }}>Properties</a></li>
+                        </>
+                    )}
             </ul>
         </div>
     )

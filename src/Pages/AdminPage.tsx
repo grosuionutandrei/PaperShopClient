@@ -5,6 +5,7 @@ import React from "react";
 import Navigation from "../components/Navigation.tsx";
 import {AdminProperties} from "./AdminProperties.tsx";
 import {Customers} from "../components/admin/customers/Customers.tsx";
+import {CustomerOrderHistory} from "../components/admin/customers/CustomerOrderHistory.tsx";
 
 export const AdminPage = () => {
 
@@ -20,7 +21,8 @@ export const AdminPage = () => {
                 <Route path={"properties/edit"} element={<AdminProperties/>}></Route>
                 <Route path={"properties/edit/delete"} element={<AdminProperties/>}></Route>
                 <Route path={"customers"} element={<Customers/>}></Route>
-                <Route path={"customers/:customerId/orders"} element={<Customers/>}></Route>
+                <Route path={"customers/:customerId/history"} element={<CustomerOrderHistory/>}></Route>
+
             </Routes>
         </>
     )
