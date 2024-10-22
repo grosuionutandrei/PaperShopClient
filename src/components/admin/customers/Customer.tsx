@@ -38,7 +38,6 @@ export const CustomerView = ({customer,index}: Customer) => {
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                         <li><a onClick={() => {
                             navigate(`/api/admin/customers/${customerDisplayed.customerId}/history`);
-                            // setRenderDeleteModal(true);
                         }}>Orders</a></li>
                     </ul>
                 </div>

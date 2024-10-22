@@ -116,7 +116,7 @@ export const Filters = () => {
                         <span className={"font-semibold"}>{priceRange.minimumRange}</span>
                         <span className={"font-semibold"}>{priceRange.maximumRange}</span>
                     </div>
-                    <input type="range" min={priceRange.minimumRange!} max={(priceRange.maximumRange!)+1}
+                    <input type="range" min={priceRange.minimumRange!} max={(priceRange.maximumRange!)}
                            value={priceMaxValue}
                             onChange={(e) => handleRangeChange(Number(e.target.value))}
                            className="range range-primary"/>

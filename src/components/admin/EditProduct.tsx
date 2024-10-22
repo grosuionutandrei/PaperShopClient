@@ -29,8 +29,6 @@ export const EditProduct = ({isOpen, openModal, product}: OpenModal) => {
             setOpenClass("modal-open");
             setProductToEdit({...product})
             getPaperProperties(product.id!);
-            // const difference = getAllProps.filter(item => !productProperties.includes(item));
-            // setPropertiesToAdd(difference);
         } else {
             setOpenClass("");
         }
@@ -51,13 +49,13 @@ export const EditProduct = ({isOpen, openModal, product}: OpenModal) => {
     };
 
     const closeWindow = () => {
-        setOpenClass("");
-        openModal();
-    }
+      setOpenClass("");
+      openModal();
+    };
 
     const disabled = () => {
-        return product.stock == 0;
-    }
+      return -1 >= productToEdit.stock!;
+    };
 
     const editProduct = (command: EditCommand, stringInput: string) => {
         switch (command) {
@@ -284,7 +282,7 @@ export const EditProduct = ({isOpen, openModal, product}: OpenModal) => {
 
                     <form method="dialog">
                         <button className="btn" onClick={() => closeWindow()}>Exit</button>
-                        <button className="btn" disabled={disabled()} onClick={() => performEdit()}>
+                        <button className="btn"  onClick={() => performEdit()}>
                             Save
                         </button>
                     </form>
